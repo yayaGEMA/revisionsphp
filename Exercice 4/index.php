@@ -10,9 +10,13 @@ Exercice : Créer une fonction isPositive() qui prend 1 argument de type "int" e
 // Fonction à créer ici
 //-------------------------------------------------------------------------
 
-
-
-
+function isPositive(int $a){
+    if($a <0){
+        return false;
+    } else {
+        return true;
+    }
+}
 
 //-------------------------------------------------------------------------
 
