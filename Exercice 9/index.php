@@ -10,9 +10,9 @@ Exercice : Créer une fonction censor() qui prend 1 argument de type "string" et
 // Fonction à créer ici
 //-------------------------------------------------------------------------
 
-
-
-
+function censor(string $insult){
+    return str_replace(["stupide", "idiot", "ANDOUILLE"], "****", $insult);
+}
 
 //-------------------------------------------------------------------------
 
