@@ -141,7 +141,7 @@ $response->closeCursor();
                     "<tr>
                         <td>" . htmlspecialchars($animal['name']) . "</td>
                         <td>" . htmlspecialchars($animal['species']) . "</td>
-                        <td>" . htmlspecialchars($animal['birthdate']) . "</td>
+                        <td>" . htmlspecialchars(strftime('%d-%m-%Y', time($animal['birthdate']))) . "</td>
                     </tr>";
                 }
                 ?>
