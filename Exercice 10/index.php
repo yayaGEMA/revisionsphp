@@ -10,9 +10,11 @@ Exercice : Créer une fonction getNextYear() qui retourne l'année (sur 4 chiffr
 // Fonction à créer ici
 //-------------------------------------------------------------------------
 
-
-
-
+function getNextYear(){
+    $time = new DateTime('now');
+    $newtime = $time->modify('+1 year')->format('Y');
+    return $newtime;
+}
 
 //-------------------------------------------------------------------------
 
