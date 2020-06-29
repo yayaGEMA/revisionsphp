@@ -7,6 +7,8 @@ require 'models/DAO/AnimalManager.php';
 use App\DTO\Animal;
 use App\DAO\AnimalManager;
 
+require 'models/settings.php';
+
 // Try catch for exceptions
 try{
     // Appel des variables
@@ -58,11 +60,6 @@ try{
             }
         }
     }
-} catch(Exception $e){
-die('Problème PHP : ' . $e->getMessage());
-}
-
-try{
 
     // Instanciation du manager des animaux
     $animalManager = new AnimalManager( getDb() );

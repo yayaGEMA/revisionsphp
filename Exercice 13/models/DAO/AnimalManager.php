@@ -7,8 +7,6 @@ use \App\DTO\Animal;
 use \PDO;
 use \DateTime;
 
-require 'models/settings.php';
-
 /**
  * DAO class dealing with "Animal" class objects
  */

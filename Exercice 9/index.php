@@ -11,7 +11,7 @@ Exercice : Créer une fonction censor() qui prend 1 argument de type "string" et
 //-------------------------------------------------------------------------
 
 function censor(string $insult){
-    return str_replace(["stupide", "idiot", "ANDOUILLE"], "****", $insult);
+    return str_replace(["stupide", "idiot", "andouille"], "****", ucfirst(strtolower($insult)));
 }
 
 //-------------------------------------------------------------------------

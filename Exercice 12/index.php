@@ -1,60 +1,62 @@
 <?php
 
-// Appel des variables
-if(
-    isset($_POST['name']) &&
-    isset($_POST['species']) &&
-    isset($_POST['birthdate'])
-){
+// Connexion à la base de données
+try{
 
-    // Bloc des vérifs
+    // Appel des variables
+    if(
+        isset($_POST['name']) &&
+        isset($_POST['species']) &&
+        isset($_POST['birthdate'])
+    ){
 
-    // Vérif fruitname
-    if(!preg_match('/^[a-z\'\- áàâäãåçéèêëíìîïñóòôöõúùûüýÿæœÁÀÂÄÃÅÇÉÈÊËÍÌÎÏÑÓÒÔÖÕÚÙÛÜÝŸÆŒ ]{3,50}$/i', $_POST['name'])){
-        $errors[] = 'Nom de fruit invalide';
-    }
+        // Bloc des vérifs
 
-    // Vérif color
-    if(!preg_match('/^[a-z\'\- áàâäãåçéèêëíìîïñóòôöõúùûüýÿæœÁÀÂÄÃÅÇÉÈÊËÍÌÎÏÑÓÒÔÖÕÚÙÛÜÝŸÆŒ ]{2,55}$/i', $_POST['species'])){
-        $errors[] = 'Couleur invalide';
-    }
+        // Vérif nom d'animal
+        if(!preg_match('/^[a-z\'\- áàâäãåçéèêëíìîïñóòôöõúùûüýÿæœÁÀÂÄÃÅÇÉÈÊËÍÌÎÏÑÓÒÔÖÕÚÙÛÜÝŸÆŒ ]{3,50}$/i', $_POST['name'])){
+            $errors[] = 'Nom de l\'animal invalide';
+        }
 
-    // Vérif birthdate
-    if(!preg_match('/^([12]\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01]))$/', $_POST['birthdate'])){
-        $errors[] = 'Date de naissance invalide';
-    }
+        // Vérif espèce
+        if(!preg_match('/^[a-z\'\- áàâäãåçéèêëíìîïñóòôöõúùûüýÿæœÁÀÂÄÃÅÇÉÈÊËÍÌÎÏÑÓÒÔÖÕÚÙÛÜÝŸÆŒ ]{2,55}$/i', $_POST['species'])){
+            $errors[] = 'Nom de l\'espèce invalide';
+        }
 
-    // Si pas d'erreurs
-    if(!isset($errors)){
+        // Vérif birthdate
+        if(!preg_match('/^([12]\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01]))$/', $_POST['birthdate'])){
+            $errors[] = 'Date de naissance invalide';
+        }
 
-        // Connexion à la base de données
-        try{
+        // Si pas d'erreurs
+        if(!isset($errors)){
+
             $bdd = new PDO('mysql:host=localhost;dbname=revisions_php;charset=utf8', 'root', '');
             //Affichage des erreurs SQL si il y en a
             $bdd->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        } catch(Exception $e){
-            die('Il y a un problème sur la BDD : ' . $e->getMessage());
+
+            // Requête préparée avec un marqueur, pour éviter les injections SQL
+            $response = $bdd->prepare("INSERT INTO animals(name, species, birthdate) VALUES (?,?,?)");
+
+            $response->execute([
+                $_POST['name'],
+                $_POST['species'],
+                $_POST['birthdate']
+            ]);
+
+            // Si l'insertion a réussi (rowCount retournera 1), alors on crée un message de succès, sinon message d'erreur
+            if($response->rowCount() > 0){
+                $successMessage = 'Votre animal a bien été ajouté.';
+            }else{
+                $errors[] = 'Problème avec la BDD, veuillez réessayer.';
+            }
+
+            // Fermeture de la requête
+            $response->closeCursor();
         }
-
-        // Requête préparée avec un marqueur, pour éviter les injections SQL
-        $response = $bdd->prepare("INSERT INTO animals(name, species, birthdate) VALUES (?,?,?)");
-
-        $response->execute([
-            $_POST['name'],
-            $_POST['species'],
-            $_POST['birthdate']
-        ]);
-
-        // Si l'insertion a réussi (rowCount retournera 1), alors on crée un message de succès, sinon message d'erreur
-        if($response->rowCount() > 0){
-            $successMessage = 'Votre animal a bien été ajouté.';
-        }else{
-            $errors[] = 'Problème avec la BDD, veuillez réessayer.';
-        }
-
-        // Fermeture de la requête
-        $response->closeCursor();
     }
+
+} catch(Exception $e){
+    die('Il y a un problème sur la BDD : ' . $e->getMessage());
 }
 
 // Connexion à la base de données
@@ -131,7 +133,7 @@ $response->closeCursor();
         echo '<h3 style="color:red;">Oups ! Il n\'y a aucun animal à afficher.</h3>';
     } else {
         ?>
-            <table style="border: 1px solid black;">
+            <table>
                 <thead>
                     <tr>
                         <th>Nom</th>

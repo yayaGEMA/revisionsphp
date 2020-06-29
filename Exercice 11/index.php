@@ -25,6 +25,8 @@ function getGoogleLogo(){
     // from url and use file_put_contents() function to
     // save the file by using base name
     file_put_contents( 'logos/'.$filename,file_get_contents($url));
+
+    rename('logos/googlelogo_color_272x92dp.png', "logos/logo_google.png");
 }
 
 //-------------------------------------------------------------------------
