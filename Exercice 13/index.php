@@ -66,7 +66,7 @@ try{
 
     // Instanciation du manager des animaux
     $animalManager = new AnimalManager( getDb() );
-    
+
     // Récupération de tous les animaux
     $animals = $animalManager->findAll();
 
@@ -82,6 +82,11 @@ try{
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        table, th, td {
+            border: 1px solid black;
+        }
+    </style>
     <title>AJOUTER UN ANIMAL</title>
 </head>
 <body>
@@ -143,7 +148,7 @@ if(empty($animals)){
                 "<tr>
                     <td>" . htmlspecialchars($animal->getName()) . "</td>
                     <td>" . htmlspecialchars($animal->getSpecies()) . "</td>
-                    <td>" . htmlspecialchars($animal->getBirthdate()->format('d/m/Y')) . "</td>
+                    <td>" . htmlspecialchars($animal->getBirthdate()->format('d-m-Y')) . "</td>
                 </tr>";
             }
             ?>

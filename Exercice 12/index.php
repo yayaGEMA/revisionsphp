@@ -80,6 +80,11 @@ $response->closeCursor();
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        table, th, td {
+            border: 1px solid black;
+        }
+    </style>
     <title>AJOUTER UN ANIMAL</title>
 </head>
 <body>
@@ -141,7 +146,7 @@ $response->closeCursor();
                     "<tr>
                         <td>" . htmlspecialchars($animal['name']) . "</td>
                         <td>" . htmlspecialchars($animal['species']) . "</td>
-                        <td>" . htmlspecialchars(strftime('%d-%m-%Y', time($animal['birthdate']))) . "</td>
+                        <td>" . htmlspecialchars(date("d-m-Y", strtotime($animal['birthdate']))) . "</td>
                     </tr>";
                 }
                 ?>
